@@ -2,6 +2,7 @@ var locations = {};
 var searchPosition = [];
 //setting a value here can be used to handle errors with unmatched cities
 var cityStr = "Not Found";
+var stateStr = "Not Found";
 var objPath;
 //Used to filter address by city
 var supportedCities = [
@@ -10,9 +11,14 @@ var supportedCities = [
   "Falls Church",
   "Newport News",
   "Norfolk",
+  "Raleigh",
   "Richmond",
   "Virginia Beach"
 ];
+var suppportedStates = {
+  NC: "NorthCarolina",
+  VA: "Virginia"
+};
 
 function getAddress(searchPosition) {
   return new Promise(function(resolve, reject) {
@@ -48,10 +54,19 @@ function setObjPath(address) {
       cityStr = supportedCities[i];
     }
   }
+  console.log("States length: " + Object.keys(suppportedStates).length);
+  for (i = 0; i < Object.keys(suppportedStates).length; i++) {
+    //TODO: Need to loop through object keys, then retrieve value to build ObjPath
+    if (formatted_address.includes(suppportedStates[i])) {
+      stateStr = suppportedStates[i];
+    }
+  }
+  console.log(stateStr);
   //remove whitespace
   cityPath = cityStr.replace(/\s+/g, '');
   console.log("The city to search is: " + cityStr);
   //create object path to dynamically insert city into function parameters
+  //TODO: Need to dynamically insert state in in the object path
   objPath = cityPath.split('.').reduce((o,i)=>o[i], locations.Virginia);
   console.log("setObjPath returns this: " + objPath);
 }
