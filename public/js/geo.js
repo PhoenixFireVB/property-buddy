@@ -60,14 +60,12 @@ function setObjPath(address) {
       stateStr = suppportedStates[i];
     }
   }
-  console.log(stateStr);
   //remove whitespace
   cityPath = cityStr.replace(/\s+/g, '');
-  console.log("The city to search is: " + cityStr);
-  console.log(locations);
+  console.log("The city and state to search is: " + cityStr + ", " + stateStr);
   objPath = stateStr.split('.').reduce((o,i)=>o[i], locations);
   objPath = cityPath.split('.').reduce((o,i)=>o[i], objPath);
-  console.log("setObjPath returns this: " + objPath);
+  console.log("setObjPath returns this: " + JSON.stringify(objPath));
 }
 
 function getFeaturesForLocation(position) {
