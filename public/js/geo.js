@@ -15,10 +15,10 @@ var supportedCities = [
   "Richmond",
   "Virginia Beach"
 ];
-var suppportedStates = {
-  NC: "NorthCarolina",
-  VA: "Virginia"
-};
+var suppportedStates = [
+  "NC",
+  "VA"
+];
 
 function getAddress(searchPosition) {
   return new Promise(function(resolve, reject) {
@@ -54,10 +54,9 @@ function setObjPath(address) {
       cityStr = supportedCities[i];
     }
   }
-  console.log("States length: " + Object.keys(suppportedStates).length);
-  for (i = 0; i < Object.keys(suppportedStates).length; i++) {
-    //TODO: Need to loop through object keys, then retrieve value to build ObjPath
-    if (formatted_address.includes(suppportedStates[i])) {
+
+  for (i = 0; i < suppportedStates.length; i++) {
+    if (formattedAddress.includes(suppportedStates[i])) {
       stateStr = suppportedStates[i];
     }
   }
@@ -65,9 +64,9 @@ function setObjPath(address) {
   //remove whitespace
   cityPath = cityStr.replace(/\s+/g, '');
   console.log("The city to search is: " + cityStr);
-  //create object path to dynamically insert city into function parameters
-  //TODO: Need to dynamically insert state in in the object path
-  objPath = cityPath.split('.').reduce((o,i)=>o[i], locations.Virginia);
+  console.log(locations);
+  objPath = stateStr.split('.').reduce((o,i)=>o[i], locations);
+  objPath = cityPath.split('.').reduce((o,i)=>o[i], objPath);
   console.log("setObjPath returns this: " + objPath);
 }
 
