@@ -2,6 +2,7 @@ var locations = {};
 var searchPosition = [];
 //setting a value here can be used to handle errors with unmatched cities
 var cityStr = "Not Found";
+var stateStr = "Not Found";
 var objPath;
 //Used to filter address by city
 var supportedCities = [
@@ -10,8 +11,13 @@ var supportedCities = [
   "Falls Church",
   "Newport News",
   "Norfolk",
+  "Raleigh",
   "Richmond",
   "Virginia Beach"
+];
+var suppportedStates = [
+  "NC",
+  "VA"
 ];
 
 function getAddress(searchPosition) {
@@ -48,12 +54,18 @@ function setObjPath(address) {
       cityStr = supportedCities[i];
     }
   }
+
+  for (i = 0; i < suppportedStates.length; i++) {
+    if (formattedAddress.includes(suppportedStates[i])) {
+      stateStr = suppportedStates[i];
+    }
+  }
   //remove whitespace
   cityPath = cityStr.replace(/\s+/g, '');
-  console.log("The city to search is: " + cityStr);
-  //create object path to dynamically insert city into function parameters
-  objPath = cityPath.split('.').reduce((o,i)=>o[i], locations.Virginia);
-  console.log("setObjPath returns this: " + objPath);
+  console.log("The city and state to search is: " + cityStr + ", " + stateStr);
+  objPath = stateStr.split('.').reduce((o,i)=>o[i], locations);
+  objPath = cityPath.split('.').reduce((o,i)=>o[i], objPath);
+  console.log("setObjPath returns this: " + JSON.stringify(objPath));
 }
 
 function getFeaturesForLocation(position) {
